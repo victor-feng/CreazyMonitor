@@ -83,7 +83,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'CrazyMonitor_test',
         'USER':'root',
-        'PASSWORD':'',
+        'PASSWORD':'123456',
         'HOST':'',
         'PORT':3306,
     }

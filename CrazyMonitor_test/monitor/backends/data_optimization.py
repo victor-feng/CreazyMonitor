@@ -115,7 +115,7 @@ class DataStore(object):
             # print("tmp data dic:",tmp_data_dic)
             for service_data_item,last_save_time in raw_service_data:  # loop 最近n分钟的数据
                 # print(service_data_item)
-                                for service_index,v in service_data_item.items():  # loop 每个数据点的指标
+                for service_index,v in service_data_item.items():  # loop 每个数据点的指标
                     # print(service_index,v)
                     tmp_data_dic[service_index].append(round(float(v),2))  # 把这个点的当前这个指标 的值 添加到临时dict中
                 # print(service_data_item,last_save_time)

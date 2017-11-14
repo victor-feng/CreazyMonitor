@@ -4,8 +4,6 @@ from django.contrib.auth.models import User
 # Create your models here.
 
 
-
-
 class Host(models.Model):
     name =  models.CharField(max_length=64,unique=True)
     ip_addr =  models.GenericIPAddressField(unique=True)
@@ -68,7 +66,7 @@ class Template(models.Model):
     triggers = models.ManyToManyField('Trigger',verbose_name=u"触发器列表",blank=True)
     def __unicode__(self):
         return self.name
-'''
+"""
 class TriggerExpression(models.Model):
     name = models.CharField(u"触发器表达式名称",max_length=64,blank=True,null=True)
     service = models.ForeignKey(Service,verbose_name=u"关联服务")
@@ -90,7 +88,7 @@ class TriggerExpression(models.Model):
 
     def __unicode__(self):
         return "%s %s(%s(%s))" %(self.service_index,self.operator_type,self.data_calc_func,self.data_calc_args)
-'''
+"""
 
 
 class TriggerExpression(models.Model):
@@ -120,6 +118,7 @@ class TriggerExpression(models.Model):
     class Meta:
         pass #unique_together = ('trigger_id','service')
 
+
 class Trigger(models.Model):
     name = models.CharField(u'触发器名称',max_length=64)
     #expressions= models.TextField(u"表达式")
@@ -137,25 +136,28 @@ class Trigger(models.Model):
 
     def __unicode__(self):
         return "<serice:%s, severity:%s>" %(self.name,self.get_severity_display())
-'''
-class ActionCondtion(models.Model):
-    action  = models.ForeignKey('Action',verbose_name=u"属于哪个action")
-    trigger = models.ForeignKey('Trigger',verbose_name=u"所关联的trigger")
-    severity_choices = (
-        (1,'Information'),
-        (2,'Warning'),
-        (3,'Average'),
-        (4,'High'),
-        (5,'Diaster'),
-    )
-    #severity = models.IntegerField(u'所达到的告警级别',choices=severity_choices)
-    logic_type_choices = (('or','OR'),('and','AND'))
-    logic_type = models.CharField(u"与一个条件的逻辑关系",choices=logic_type_choices,max_length=32,blank=True,null=True)
-    def __unicode__(self):
-        return "action:%s, trigger:%s" %(self.action,self.trigger)
-    class Meta:
-        unique_together = ('action','trigger')
-'''
+
+
+# class ActionCondtion(models.Model):
+#     action  = models.ForeignKey('Action',verbose_name=u"属于哪个action")
+#     trigger = models.ForeignKey('Trigger',verbose_name=u"所关联的trigger")
+#     severity_choices = (
+#         (1,'Information'),
+#         (2,'Warning'),
+#         (3,'Average'),
+#         (4,'High'),
+#         (5,'Diaster'),
+#     )
+#     severity = models.IntegerField(u'所达到的告警级别',choices=severity_choices)
+#     logic_type_choices = (('or','OR'),('and','AND'))
+#     logic_type = models.CharField(u"与一个条件的逻辑关系",choices=logic_type_choices,max_length=32,blank=True,null=True)
+#     def __unicode__(self):
+#         return "action:%s, trigger:%s" %(self.action,self.trigger)
+#     class Meta:
+#         unique_together = ('action','trigger')
+
+
+
 class Action(models.Model):
     name =  models.CharField(max_length=64,unique=True)
     host_groups = models.ManyToManyField('HostGroup',blank=True)
