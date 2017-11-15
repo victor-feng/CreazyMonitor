@@ -1,4 +1,4 @@
-#!_*_coding:utf8_*_
+#! _*_ coding:utf8 _*_
 from django.db import models
 from django.contrib.auth.models import User
 # Create your models here.
@@ -27,16 +27,19 @@ class Host(models.Model):
     def __unicode__(self):
         return self.name
 
+
 class HostGroup(models.Model):
-    name =  models.CharField(max_length=64,unique=True)
+    name = models.CharField(max_length=64,unique=True)
     templates = models.ManyToManyField("Template",blank=True)
     memo = models.TextField(u"备注",blank=True,null=True)
+
     def __unicode__(self):
         return self.name
 
+
 class ServiceIndex(models.Model):
     name = models.CharField(max_length=64)
-    key =models.CharField(max_length=64)
+    key = models.CharField(max_length=64)
     data_type_choices = (
         ('int',"int"),
         ('float',"float"),
@@ -44,8 +47,10 @@ class ServiceIndex(models.Model):
     )
     data_type = models.CharField(u'指标数据类型',max_length=32,choices=data_type_choices,default='int')
     memo = models.CharField(u"备注",max_length=128,blank=True,null=True)
+
     def __unicode__(self):
         return "%s.%s" %(self.name,self.key)
+
 
 class Service(models.Model):
     name = models.CharField(u'服务名称',max_length=64,unique=True)
@@ -57,15 +62,19 @@ class Service(models.Model):
 
     def __unicode__(self):
         return self.name
-    #def get_service_items(obj):
+
+    # def get_service_items(obj):
     #    return ",".join([i.name for i in obj.items.all()])
+
 
 class Template(models.Model):
     name = models.CharField(u'模版名称',max_length=64,unique=True)
     services = models.ManyToManyField('Service',verbose_name=u"服务列表")
     triggers = models.ManyToManyField('Trigger',verbose_name=u"触发器列表",blank=True)
+
     def __unicode__(self):
         return self.name
+
 """
 class TriggerExpression(models.Model):
     name = models.CharField(u"触发器表达式名称",max_length=64,blank=True,null=True)
@@ -113,15 +122,17 @@ class TriggerExpression(models.Model):
     logic_type_choices = (('or','OR'),('and','AND'))
     logic_type = models.CharField(u"与一个条件的逻辑关系",choices=logic_type_choices,max_length=32,blank=True,null=True)
     #next_condition = models.ForeignKey('self',verbose_name=u"右边条件",blank=True,null=True,related_name='right_sibling_condition' )
+
     def __unicode__(self):
         return "%s %s(%s(%s))" %(self.service_index,self.operator_type,self.data_calc_func,self.data_calc_args)
+
     class Meta:
         pass #unique_together = ('trigger_id','service')
 
 
 class Trigger(models.Model):
     name = models.CharField(u'触发器名称',max_length=64)
-    #expressions= models.TextField(u"表达式")
+    # expressions= models.TextField(u"表达式")
     severity_choices = (
         (1,'Information'),
         (2,'Warning'),
@@ -129,7 +140,7 @@ class Trigger(models.Model):
         (4,'High'),
         (5,'Diaster'),
     )
-    #expressions = models.ManyToManyField(TriggerExpression,verbose_name=u"条件表达式")
+    # expressions = models.ManyToManyField(TriggerExpression,verbose_name=u"条件表达式")
     severity = models.IntegerField(u'告警级别',choices=severity_choices)
     enabled = models.BooleanField(default=True)
     memo = models.TextField(u"备注",blank=True,null=True)
@@ -151,15 +162,16 @@ class Trigger(models.Model):
 #     severity = models.IntegerField(u'所达到的告警级别',choices=severity_choices)
 #     logic_type_choices = (('or','OR'),('and','AND'))
 #     logic_type = models.CharField(u"与一个条件的逻辑关系",choices=logic_type_choices,max_length=32,blank=True,null=True)
+#
 #     def __unicode__(self):
 #         return "action:%s, trigger:%s" %(self.action,self.trigger)
+#
 #     class Meta:
 #         unique_together = ('action','trigger')
 
 
-
 class Action(models.Model):
-    name =  models.CharField(max_length=64,unique=True)
+    name = models.CharField(max_length=64,unique=True)
     host_groups = models.ManyToManyField('HostGroup',blank=True)
     hosts = models.ManyToManyField('Host',blank=True)
     triggers = models.ManyToManyField('Trigger',blank=True,help_text=u"想让哪些trigger触发当前报警动作")
@@ -174,6 +186,7 @@ class Action(models.Model):
 
     def __unicode__(self):
         return self.name
+
 
 class ActionOperation(models.Model):
     name =  models.CharField(max_length=64)
